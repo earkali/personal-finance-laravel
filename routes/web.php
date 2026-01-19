@@ -12,12 +12,19 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $user = auth()->user();
     
-    // Hesaplamalar
+    // Genel Hesaplamalar
     $totalIncome = $user->transactions()->where('type', 'income')->sum('amount');
     $totalExpense = $user->transactions()->where('type', 'expense')->sum('amount');
     $balance = $totalIncome - $totalExpense;
 
-    return view('dashboard', compact('totalIncome', 'totalExpense', 'balance'));
+    // Kategori Bazlı Gider Dağılımı (Analiz için eklendi)
+    $categoryData = $user->categories()
+        ->withSum(['transactions' => function($query) {
+            $query->where('type', 'expense');
+        }], 'amount')
+        ->get();
+
+    return view('dashboard', compact('totalIncome', 'totalExpense', 'balance', 'categoryData'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

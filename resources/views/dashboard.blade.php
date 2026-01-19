@@ -25,9 +25,29 @@
                 </div>
             </div>
 
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8">
+                <div class="p-6 text-gray-900">
+                    <h3 class="text-lg font-bold mb-4">Gider Dağılımı (Kategori Bazlı)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        @foreach($categoryData as $category)
+                            @if($category->transactions_sum_amount > 0)
+                                <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-sm">
+                                    <span class="font-semibold text-gray-700">{{ $category->name }}</span>
+                                    <span class="font-bold text-red-600">-{{ number_format($category->transactions_sum_amount, 2) }} TL</span>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                    
+                    @if($categoryData->where('transactions_sum_amount', '>', 0)->isEmpty())
+                        <p class="text-gray-500 italic">Henüz kaydedilmiş bir gider bulunmamaktadır.</p>
+                    @endif
+                </div>
+            </div>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("Başarıyla giriş yaptınız! Yukarıdaki panelden güncel durumunuzu takip edebilirsiniz.") }}
+                    {{ __("Başarıyla giriş yaptınız! Yukarıdaki panelden harcama dağılımınızı görebilirsiniz.") }}
                 </div>
             </div>
         </div>
