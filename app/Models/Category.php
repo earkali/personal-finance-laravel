@@ -15,7 +15,7 @@ class Category extends Model
     ];
 
     /**
-     * Get the user that owns the category.
+     * Kategorinin hangi kullanıcıya ait olduğunu belirtir.
      */
     public function user(): BelongsTo
     {
@@ -23,7 +23,7 @@ class Category extends Model
     }
 
     /**
-     * Get the transactions for the category.
+     * Bu kategoriye bağlı tüm işlemleri getirir.
      */
     public function transactions(): HasMany
     {

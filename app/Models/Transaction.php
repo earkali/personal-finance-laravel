@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Transaction extends Model
 {
     protected $fillable = [
+        'user_id',
+        'category_id',
         'amount',
         'description',
         'date',
-        'category_id',
-        'user_id',
+        'type', // Gelir mi gider mi olduğunu belirtmek için eklendi
     ];
 
     protected function casts(): array
@@ -24,18 +25,18 @@ class Transaction extends Model
     }
 
     /**
-     * Get the category that owns the transaction.
-     */
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    /**
-     * Get the user that owns the transaction.
+     * İşlemin kime ait olduğunu belirtir.
      */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * İşlemin hangi kategoriye ait olduğunu belirtir.
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }
