@@ -9,9 +9,6 @@ use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): View
     {
         $categories = Category::where('user_id', auth()->id())
@@ -22,17 +19,11 @@ class CategoryController extends Controller
         return view('categories.index', compact('categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): View
     {
         return view('categories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -48,9 +39,6 @@ class CategoryController extends Controller
             ->with('success', 'Category created successfully.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id): View
     {
         $category = Category::where('user_id', auth()->id())
@@ -59,9 +47,6 @@ class CategoryController extends Controller
         return view('categories.edit', compact('category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id): RedirectResponse
     {
         $category = Category::where('user_id', auth()->id())
@@ -78,9 +63,6 @@ class CategoryController extends Controller
             ->with('success', 'Category updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id): RedirectResponse
     {
         $category = Category::where('user_id', auth()->id())

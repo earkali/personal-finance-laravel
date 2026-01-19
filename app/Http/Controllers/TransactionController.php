@@ -36,7 +36,7 @@ class TransactionController extends Controller
 
         auth()->user()->transactions()->create($validated);
 
-        return redirect()->route('transactions.index')->with('success', 'İşlem başarıyla eklendi.');
+        return redirect()->route('transactions.index')->with('success', 'Transaction created successfully.');
     }
 
     public function edit(Transaction $transaction)
@@ -61,7 +61,7 @@ class TransactionController extends Controller
 
         $transaction->update($validated);
 
-        return redirect()->route('transactions.index')->with('success', 'İşlem güncellendi.');
+        return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
     }
 
     public function destroy(Transaction $transaction)
@@ -70,6 +70,6 @@ class TransactionController extends Controller
 
         $transaction->delete();
 
-        return redirect()->route('transactions.index')->with('success', 'İşlem silindi.');
+        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
     }
 }

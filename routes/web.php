@@ -12,12 +12,10 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $user = auth()->user();
     
-    // Genel Hesaplamalar
     $totalIncome = $user->transactions()->where('type', 'income')->sum('amount');
     $totalExpense = $user->transactions()->where('type', 'expense')->sum('amount');
     $balance = $totalIncome - $totalExpense;
 
-    // Kategori Bazlı Gider Dağılımı (Analiz için eklendi)
     $categoryData = $user->categories()
         ->withSum(['transactions' => function($query) {
             $query->where('type', 'expense');

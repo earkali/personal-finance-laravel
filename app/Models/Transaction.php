@@ -13,7 +13,7 @@ class Transaction extends Model
         'amount',
         'description',
         'date',
-        'type', // Gelir mi gider mi olduğunu belirtmek için eklendi
+        'type',
     ];
 
     protected function casts(): array
@@ -24,17 +24,11 @@ class Transaction extends Model
         ];
     }
 
-    /**
-     * İşlemin kime ait olduğunu belirtir.
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * İşlemin hangi kategoriye ait olduğunu belirtir.
-     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

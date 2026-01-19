@@ -14,17 +14,11 @@ class Category extends Model
         'user_id',
     ];
 
-    /**
-     * Kategorinin hangi kullanıcıya ait olduğunu belirtir.
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Bu kategoriye bağlı tüm işlemleri getirir.
-     */
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
