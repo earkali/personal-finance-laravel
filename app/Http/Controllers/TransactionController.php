@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    /**
-     * Tüm işlemleri listele.
-     */
     public function index()
     {
         $transactions = auth()->user()->transactions()
@@ -21,19 +18,12 @@ class TransactionController extends Controller
         return view('transactions.index', compact('transactions'));
     }
 
-    /**
-     * Yeni işlem oluşturma formunu göster.
-     */
     public function create()
     {
         $categories = auth()->user()->categories;
-        
         return view('transactions.create', compact('categories'));
     }
 
-    /**
-     * Yeni işlemi veritabanına kaydet.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -49,15 +39,34 @@ class TransactionController extends Controller
         return redirect()->route('transactions.index')->with('success', 'İşlem başarıyla eklendi.');
     }
 
-    /**
-     * İşlemi sil.
-     */
+    public function edit(Transaction $transaction)
+    {
+        if ($transaction->user_id !== auth()->id()) abort(403);
+        
+        $categories = auth()->user()->categories;
+        return view('transactions.edit', compact('transaction', 'categories'));
+    }
+
+    public function update(Request $request, Transaction $transaction)
+    {
+        if ($transaction->user_id !== auth()->id()) abort(403);
+
+        $validated = $request->validate([
+            'amount' => 'required|numeric',
+            'description' => 'nullable|string|max:255',
+            'date' => 'required|date',
+            'category_id' => 'required|exists:categories,id',
+            'type' => 'required|in:income,expense',
+        ]);
+
+        $transaction->update($validated);
+
+        return redirect()->route('transactions.index')->with('success', 'İşlem güncellendi.');
+    }
+
     public function destroy(Transaction $transaction)
     {
-        // Güvenlik kontrolü
-        if ($transaction->user_id !== auth()->id()) {
-            abort(403);
-        }
+        if ($transaction->user_id !== auth()->id()) abort(403);
 
         $transaction->delete();
 

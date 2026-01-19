@@ -36,7 +36,11 @@
                             <td class="px-6 py-4 font-bold {{ $transaction->type == 'expense' ? 'text-red-600' : 'text-green-600' }}">
                                 {{ $transaction->type == 'expense' ? '-' : '+' }}{{ number_format($transaction->amount, 2) }} TL
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 flex items-center">
+                                <a href="{{ route('transactions.edit', $transaction) }}" class="text-blue-600 hover:text-blue-900 font-medium mr-4">
+                                    Düzenle
+                                </a>
+
                                 <form action="{{ route('transactions.destroy', $transaction) }}" method="POST" onsubmit="return confirm('Bu işlemi silmek istediğinize emin misiniz?')">
                                     @csrf
                                     @method('DELETE')
